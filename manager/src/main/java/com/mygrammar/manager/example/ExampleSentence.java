@@ -52,6 +52,11 @@ public class ExampleSentence {
                 '}';
     }
 
+    public List<String> getAnswerAsStringList() {
+        return answerWord.stream().map(o -> o.getGrammar().getWord())
+                .toList();
+    }
+
     public void setValues(NameValueList nameValueList) {
         for (NameValue nameValue : nameValueList.getNameValueList()) {
             String name = nameValue.getName();

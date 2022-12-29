@@ -1,5 +1,8 @@
-package com.mygrammar.manager.grammar;
+package com.mygrammar.manager.rest;
 
+import com.mygrammar.manager.grammar.Grammar;
+import com.mygrammar.manager.grammar.GrammarDefaultService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

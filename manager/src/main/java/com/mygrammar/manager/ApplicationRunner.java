@@ -83,6 +83,14 @@ public class ApplicationRunner implements  CommandLineRunner{
             exampleHandlerRepository.save(build2);
         }
 
+        for (int i = 0; i < 100; i+=10) {
+            ExampleHandler build = ExampleHandler.builder()
+                    .grammar(grammars.get(i))
+                    .exampleSentence(exampleSentences.get(i))
+                    .build();
+            exampleHandlerRepository.save(build);
+        }
+
 
     }
 }
