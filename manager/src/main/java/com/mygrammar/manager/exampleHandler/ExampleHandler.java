@@ -22,7 +22,7 @@ public class ExampleHandler {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EXAM_GRAMMAR_HANDLER_SEQUENCE_GENERATOR")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "grammar_id")
     private Grammar grammar;
 
