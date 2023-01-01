@@ -1,14 +1,15 @@
 spring:
   datasource:
-    name: grammar
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    url: jdbc:h2:tcp://localhost/~/grammar
+    username: gwang
+    password: password
+    url: jdbc:postgresql://localhost:5432/grammars
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
 
