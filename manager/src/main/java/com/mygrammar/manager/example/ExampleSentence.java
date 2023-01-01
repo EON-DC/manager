@@ -39,10 +39,10 @@ public class ExampleSentence {
     }
 
     @Builder
-    public ExampleSentence(String sentence, List<ExampleHandler> answerWord) {
+    public ExampleSentence(String sentence) {
         this();
         this.sentence = sentence;
-        this.answerWord = answerWord;
+        this.answerWord =  new ArrayList<>();
     }
 
     @Override
