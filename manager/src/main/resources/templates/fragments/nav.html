@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="nav (selected)">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" th:classappend="${selected} == 'study' ? 'active': ''">
+                        <a class="nav-link" th:text="#{nav.study}" th:href="@{/}"></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${selected} == 'add' ? 'active': ''">
+                        <a class="nav-link" th:text="#{nav.add}" th:href=" @{/}"></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${selected} == 'edit' ? 'active': ''">
+                        <a class="nav-link" th:text="#{nav.edit}" th:href=" @{/}"></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${selected} == 'delete' ? 'active': ''">
+                        <a class="nav-link" th:text="#{nav.delete}" th:href=" @{/}"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</nav>
+</html>

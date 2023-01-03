@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragments/header :: fragment-header ('Adding Grammar')}">
+</head>
+<body class="bg-light container">
+<div class="nav">
+    <div th:replace="~{/fragments/nav :: nav ('add')}"></div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <p class="h6">Latest Added Grammar</p>
+        <p th:each="grammar : ${grammars}">
+            <a th:href="@{/grammars/edit/{id} (id=${grammar.id})}" th:text="${grammar.word}"></a>
+        </p>
+    </div>
+    <div class="col-md-10 bg-body mb-3">
+        <form th:action="@{/grammars/add}" method="post" th:object="${grammarDto}">
+            <label class="form-label" th:text="#{grammar.word}"></label>
+            <input class="form-control" type="text" th:field="*{word}" /><br>
+            <label th:text="#{grammar.meaning}"></label>
+            <input class="form-control" type="text" size="40" th:field="*{meaning}" /><br>
+            <label th:text="#{grammar.categoryURI}"></label>
+            <input class="form-control" type="text" th:field="*{categoryURI}" /><br>
+            <p class="text-end">
+                <button class="btn btn-primary" type="submit" th:text="#{submit}"></button>
+            </p>
+
+        </form>
+    </div>
+</div>
+
+<div class="footer">
+
+</div>
+</body>
+</html>

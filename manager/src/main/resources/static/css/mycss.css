@@ -1,0 +1,17 @@
+.active {
+    font-weight: 600;
+    color: rgba(0, 0, 0, .85);
+}
+
+th{
+    text-decoration: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+.textarea {
+    overflow: hidden;
+    resize: both;
+}

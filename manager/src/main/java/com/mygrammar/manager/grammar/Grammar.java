@@ -1,28 +1,29 @@
 package com.mygrammar.manager.grammar;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mygrammar.manager.exampleHandler.ExampleHandler;
+import com.mygrammar.manager.dto.GrammarDto;
 import com.mygrammar.manager.share.domain.NameValue;
 import com.mygrammar.manager.share.domain.NameValueList;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "grammar")
+@Table(name = "grammars")
 @SequenceGenerator(
         name = "GRAMMAR_SEQUENCE_GENERATOR",
         sequenceName = "GRAMMAR_SEQUENCE",
         initialValue = 1,
         allocationSize = 200
 )
+@ToString
 public class Grammar {
 
     @Id
@@ -34,27 +35,29 @@ public class Grammar {
 
     private String meaning;
 
-    @OneToMany(mappedBy = "grammar")
-    @JsonIgnore
-    private List<ExampleHandler> example = new ArrayList<>();
+    @ElementCollection
+    private List<String> examples = new ArrayList<>();
+
 
     private String categoryURI;
 
-    protected Grammar(){}
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp createdOnTime;
 
-    @Builder
-    public Grammar(String word, String meaning, List<ExampleHandler> example, String categoryURI) {
-        this();
-        this.word = word;
-        this.meaning = meaning;
-        this.example = example;
-        this.categoryURI = categoryURI;
+    protected Grammar() {
     }
 
-    public List<String> getExampleAsString() {
-        return example.stream()
-                .map(String::valueOf)
-                .collect(Collectors.toList());
+    @Builder
+    public Grammar(String word, String meaning, List<String> example, String categoryURI, Timestamp createdOnTime) {
+        this.word = word;
+        this.meaning = meaning;
+        this.examples = example;
+        this.categoryURI = categoryURI;
+        this.createdOnTime = createdOnTime;
+    }
+
+    public void addExample(String exampleSentence) {
+        examples.add(exampleSentence);
     }
 
     public void setValues(NameValueList nameValueList) {

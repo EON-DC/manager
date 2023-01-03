@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="fragment-header">
+<head th:fragment="fragment-header (title)">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <!-- CSS 링크 -->
-    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" media="all" />
-
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css" media="all" />
+    <link rel="stylesheet" th:href="@{/css/mycss.css}" type="text/css" media="all" />
     <!-- 스크립트 링크-->
-    <script type="text/javascript" src="/js/bootstrap.js"></script>
-    <title>English Database</title>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myjs.js}"></script>
+    <title th:text="${title}"></title>
     <!-- as your code... -->
 
 </head>

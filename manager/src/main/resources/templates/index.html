@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{/fragments/header :: fragment-header}"></head>
+<head th:replace="~{/fragments/header :: fragment-header ('Index page')}">
+</head>
 <body class="text-center">
 
 <div class="container-fluid">
@@ -23,36 +24,16 @@
     </div>
     <div class="btn-group">
       <button class="col-3 btn btn-secondary btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">공부하기
+              th:onclick="|location.href='@{/grammars/addForm}'|" type="button">공부하기
       </button>
       <button class="col-3 btn btn-secondary btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">추가하기
+              th:onclick="|location.href='@{/grammars/addForm}'|" type="button">추가하기
       </button>
       <button class="col-3 btn btn-secondary btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">수정하기
+              th:onclick="|location.href='@{/grammars/addForm}'|" type="button">수정하기
       </button>
       <button class="col-3 btn btn-secondary btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">삭제하기
-      </button>
-    </div>
-  </div>
-  <div class="example_crud m-2">
-    <!-- 색깔 조정,-->
-    <div class="title-header">
-      <h6>예제 관련</h6>
-    </div>
-    <div class="btn-group">
-      <button class="col-3 btn btn-light btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">공부하기
-      </button>
-      <button class="col-3 btn btn-light btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">추가하기
-      </button>
-      <button class="col-3 btn btn-light btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">수정하기
-      </button>
-      <button class="col-3 btn btn-light btn-lg" onclick="location.href='/example/addExampleForm.html'"
-              th:onclick="|location.href='@{/example/addform}'|" type="button">삭제하기
+              th:onclick="|location.href='@{/grammars/addForm}'|" type="button">삭제하기
       </button>
     </div>
   </div>

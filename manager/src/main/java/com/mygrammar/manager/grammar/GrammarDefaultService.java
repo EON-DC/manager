@@ -1,12 +1,16 @@
 package com.mygrammar.manager.grammar;
 
+import com.mygrammar.manager.dto.SimpleGrammarDto;
 import com.mygrammar.manager.share.domain.NameValueList;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class GrammarDefaultService implements GrammarService {
 
     private final GrammarJpaRepository grammarJpaRepository;
@@ -45,4 +49,15 @@ public class GrammarDefaultService implements GrammarService {
     public void deleteGrammar(int id) {
         grammarJpaRepository.deleteById(id);
     }
+
+    @Override
+    public List<SimpleGrammarDto> getLatestAddedGrammar() {
+        List<Grammar> last10AddedGrammar = grammarJpaRepository.getLast10AddedGrammar(PageRequest.of(0, 10));
+        List<SimpleGrammarDto> simpleGrammarDtoList = new ArrayList<>();
+        for (Grammar g : last10AddedGrammar) {
+            simpleGrammarDtoList.add(new SimpleGrammarDto(g.getId(), g.getWord()));
+        }
+        return simpleGrammarDtoList;
+    }
+
 }
