@@ -1,5 +1,6 @@
 package com.mygrammar.manager.grammar;
 
+import com.mygrammar.manager.dto.GrammarDto;
 import com.mygrammar.manager.dto.SimpleGrammarDto;
 import com.mygrammar.manager.share.domain.NameValueList;
 import org.springframework.data.domain.PageRequest;
@@ -14,9 +15,11 @@ import java.util.List;
 public class GrammarDefaultService implements GrammarService {
 
     private final GrammarJpaRepository grammarJpaRepository;
+    private final ExampleJpaRepository exampleJpaRepository;
 
-    public GrammarDefaultService(GrammarJpaRepository grammarJpaRepository) {
+    public GrammarDefaultService(GrammarJpaRepository grammarJpaRepository, ExampleJpaRepository exampleJpaRepository) {
         this.grammarJpaRepository = grammarJpaRepository;
+        this.exampleJpaRepository = exampleJpaRepository;
     }
 
     @Override
@@ -45,6 +48,25 @@ public class GrammarDefaultService implements GrammarService {
         return grammarJpaRepository.save(findGrammar);
     }
 
+    public Grammar updateGrammar(GrammarDto grammarDto) {
+        Grammar oneGrammar = getOneGrammar(grammarDto.getId());
+        oneGrammar.update(grammarDto.getWord(),
+                grammarDto.getMeaning(),
+                grammarDto.getCategoryURI(),
+                grammarDto.getCreatedOnTime());
+        return oneGrammar;
+    }
+
+    @Override
+    public Example saveExample(Grammar grammar, String exampleSentence) {
+        return exampleJpaRepository.save(Example.createExample(grammar, exampleSentence));
+    }
+
+    @Override
+    public List<Example> getExamples(Grammar grammar) {
+        return exampleJpaRepository.findExamplesByGrammarId(grammar.getId());
+    }
+
     @Override
     public void deleteGrammar(int id) {
         grammarJpaRepository.deleteById(id);
@@ -60,4 +82,47 @@ public class GrammarDefaultService implements GrammarService {
         return simpleGrammarDtoList;
     }
 
+    public Example createExample(Grammar grammar, String sentence) {
+        nullCheck(grammar);
+        Example example = Example.createExample(grammar, sentence);
+        exampleJpaRepository.save(example);
+        return example;
+    }
+
+    public void createRow(Grammar grammar) {
+        nullCheck(grammar);
+        grammar.getExamples().add(createExample(grammar, ""));
+    }
+
+    public void createRow(Grammar grammar, int index) {
+        nullCheck(grammar);
+        grammar.getExamples().add(index, createExample(grammar, ""));
+    }
+
+    public void deleteRow(Grammar grammar) {
+        nullCheck(grammar);
+        List<Example> examples = grammar.getExamples();
+
+        if (examples.size() == 0) {
+            return;
+        }
+        examples.remove(examples.size() - 1);
+    }
+
+    public void deleteRow(Grammar grammar, int index) {
+        nullCheck(grammar);
+
+        List<Example> examples = grammar.getExamples();
+
+        if (examples.size() <= index) {
+            return;
+        }
+        examples.remove(index);
+    }
+
+    public void nullCheck(Grammar grammar) {
+        if (grammar.getId() == null) {
+            throw new RuntimeException("No such grammar id : " + grammar.getId());
+        }
+    }
 }

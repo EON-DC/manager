@@ -13,3 +13,10 @@ spring:
         format_sql: true
     show-sql: true
 
+
+logging:
+  level:
+    org:
+      apache:
+        coyote:
+          http11: debug

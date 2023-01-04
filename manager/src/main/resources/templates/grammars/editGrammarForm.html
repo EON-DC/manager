@@ -16,16 +16,19 @@ Output object :  grammarDto, List<String> examples(updated)
 <div class="row">
     <div class="col-md-12 ">
         <p class="h4" th:text="#{nav.edit}"></p>
-        <form th:action="@{/grammars/edit/{param} (param=${grammarDto.id})}" th:object="${grammarDto}"
+        <form th:action="@{/grammars/edit/{param} (param=${grammarDto.id})}"
               method="post">
             <div class="info">
-                <input th:field="*{id}" hidden>
+                <input th:field="${grammarDto.id}" hidden>
+
                 <label th:text="#{grammar.word}"></label>
-                <input th:field="*{word}">
+                <input th:field="${grammarDto.word}">
+
                 <label th:text="#{grammar.meaning}"></label>
-                <input th:field="*{meaning}">
+                <input th:field="${grammarDto.meaning}">>
+
                 <label th:text="#{grammar.categoryURI}"></label>
-                <input th:field="*{categoryURI}">
+                <input th:field="${grammarDto.categoryURI}">
             </div>
 
             <table id="table" class="table table-striped table-responsive-md table-hover">
@@ -37,32 +40,32 @@ Output object :  grammarDto, List<String> examples(updated)
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="d-flex" th:each="example : ${examples}">
-                    <td class="col-1 text-center"><span th:text="${exampleStat.count}"></span></td>
+                <tr class="d-flex" th:each="example, rowStat:${examples}">
+                    <td class="col-1 text-center"><span th:text="${rowStat.count}"></span></td>
                     <td class="col-9">
-
                     <textarea type="text" class="form-control"
-                           th:text="${example}" th:id="${exampleStat.index}"
-                            disabled="" />
-
+                              th:id="'examples' + ${rowStat.index}+'.sentence'"
+                              th:name="'examples' + ${rowStat.index}+'.sentence'"
+                              th:value="'examples' + ${rowStat.index}"
+                              th:text="${example.sentence}" disabled=""/>
                     </td>
                     <td class="col-2">
-                        <a th:id="'edit' + ${exampleStat.index}"
+                        <a th:id="'edit' + ${rowStat.index}"
                            th:onclick="|
-                    toggleDisabled(${exampleStat.index});
-                    addClassName('edit'+${exampleStat.index}, 'invisible');
-                    removeClassName('save'+${exampleStat.index}, 'invisible');|">
+                    toggleDisabled('examples'+${rowStat.index}+'.sentence');
+                    addClassName('edit'+${rowStat.index}, 'invisible');
+                    removeClassName('save'+${rowStat.index}, 'invisible');|">
                             <img class="btn hover" th:src="@{/svg/pencil.svg}" alt="edit">
                         </a>
-                        <a class="invisible" th:id="'save' + ${exampleStat.index}"
+                        <a class="invisible" th:id="'save' + ${rowStat.index}"
                            th:onclick="|
-                       toggleDisabled(${exampleStat.index});
-                        removeClassName('edit'+${exampleStat.index}, 'invisible');
-                        addClassName('save'+${exampleStat.index}, 'invisible');|">
+                       toggleDisabled('examples'+${rowStat.index}+'.sentence');
+                        removeClassName('edit'+${rowStat.index}, 'invisible');
+                        addClassName('save'+${rowStat.index}, 'invisible');|">
                             <img class="btn hover" th:src="@{/svg/folder-check.svg}" alt="edit">
                         </a>
                         <a th:onclick="|
-                        deleteExampleConfirm(${exampleStat.index})
+                        deleteExampleConfirm('examples'+${rowStat.index}+'.sentence')
                     |">
                             <img class="btn hover" th:src="@{/svg/trash.svg}" alt="delete">
                         </a>
@@ -72,8 +75,8 @@ Output object :  grammarDto, List<String> examples(updated)
 
             </table>
             <div class="text-end">
-                <button class="btn btn-success" type="submit" name="addRow" >+</button>
-                <button class="btn btn-danger" type="submit" name="removeRow" >-</button>
+                <button class="btn btn-success" type="submit" name="addRow">+</button>
+                <button class="btn btn-danger" type="submit" name="removeRow">-</button>
                 <button class="btn btn-primary" type="submit" th:text="#{submit}"></button>
                 <button class="btn btn-outline-secondary" onclick="window.location.reload()" type="reset"
                         th:text="#{cancel}"></button>

@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "grammars")
-@SequenceGenerator(
-        name = "GRAMMAR_SEQUENCE_GENERATOR",
-        sequenceName = "GRAMMAR_SEQUENCE",
-        initialValue = 1,
-        allocationSize = 200
-)
 @ToString
 public class Grammar {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GRAMMAR_SEQUENCE_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "grammar_id")
     private Integer id;
 
@@ -35,8 +30,8 @@ public class Grammar {
 
     private String meaning;
 
-    @ElementCollection
-    private List<String> examples = new ArrayList<>();
+    @OneToMany(mappedBy = "grammar")
+    private List<Example> examples = new ArrayList<>();
 
 
     private String categoryURI;
@@ -48,17 +43,15 @@ public class Grammar {
     }
 
     @Builder
-    public Grammar(String word, String meaning, List<String> example, String categoryURI, Timestamp createdOnTime) {
+    public Grammar(Integer id, String word, String meaning, String categoryURI) {
+        this.id = id;
         this.word = word;
         this.meaning = meaning;
-        this.examples = example;
         this.categoryURI = categoryURI;
-        this.createdOnTime = createdOnTime;
+        this.createdOnTime = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public void addExample(String exampleSentence) {
-        examples.add(exampleSentence);
-    }
+
 
     public void setValues(NameValueList nameValueList) {
         for (NameValue nameValue : nameValueList.getNameValueList()) {
@@ -78,6 +71,13 @@ public class Grammar {
                     throw new RuntimeException("No such field : " + name);
             }
         }
+    }
+
+    public void update(String word, String meaning, String categoryURI, Timestamp createdOnTime) {
+        this.word = word;
+        this.meaning = meaning;
+        this.categoryURI = categoryURI;
+        this.createdOnTime = createdOnTime;
     }
 
 

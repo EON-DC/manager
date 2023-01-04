@@ -1,5 +1,6 @@
 package com.mygrammar.manager.dto;
 
+import com.mygrammar.manager.grammar.Example;
 import com.mygrammar.manager.grammar.Grammar;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -20,23 +21,21 @@ public class GrammarDto {
     private Integer id;
     private String word;
     private String meaning;
-    private List<String> examples;
     private String categoryURI;
     private Timestamp createdOnTime;
 
     public GrammarDto(Grammar grammar) {
-        BeanUtils.copyProperties(grammar, this);
+        this.id = grammar.getId();
+        this.word = grammar.getWord();
+        this.meaning = grammar.getMeaning();
+        this.categoryURI = grammar.getCategoryURI();
+        this.createdOnTime = grammar.getCreatedOnTime();
     }
 
     public Grammar toDomain() {
-        this.setCreatedOnTime(Timestamp.valueOf(LocalDateTime.now()));
-        Grammar grammar = Grammar.builder().build();
-        BeanUtils.copyProperties(this, grammar);
-        if (this.examples != null) {
-            Iterator<String> iterator = examples.iterator();
-            while (!iterator.hasNext()) {
-                grammar.getExamples().add(iterator.next());
-            }
+        Grammar grammar = new Grammar(id, word, meaning, categoryURI);
+        if (createdOnTime == null) {
+            createdOnTime = Timestamp.valueOf(LocalDateTime.now());
         }
         return grammar;
     }
