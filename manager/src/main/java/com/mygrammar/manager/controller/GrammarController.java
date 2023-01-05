@@ -63,27 +63,6 @@ public class GrammarController {
         return "grammars/editGrammarForm";
     }
 
-    @PostMapping(value = "/edit/{id}", params = {"addRow"})
-    public String addRow(Model model, @PathVariable(value = "id") Integer grammarId,
-                         GrammarDto grammarDto) {
-        // todo :
-        Grammar grammar = grammarDto.toDomain();
-
-        grammarService.addGrammar(grammar);
-        return "redirect:/grammars/edit/" + grammarId;
-    }
-
-    @PostMapping(value = "/edit/{id}", params = {"removeRow"})
-    public String deleteRow(Model model, @PathVariable(value = "id") Integer grammarId,
-                            GrammarDto grammarDto) {
-        // todo :
-        Grammar grammar = grammarDto.toDomain();
-        int lastIndex = grammar.getExamples().size();
-        grammar.getExamples().remove(lastIndex);
-        grammarService.addGrammar(grammar);
-        return "redirect:/grammars/edit/" + grammarId;
-
-    }
 
     @PostMapping(value = "/edit/{id}")
     public String editGrammar(Model model, @PathVariable(value = "id") Integer grammarId,
